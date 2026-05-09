@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { Building2, Gauge, Server, Activity, Clock, Calendar } from 'lucide-react'
+import { Building2, Gauge, Calendar } from 'lucide-react'
 import ActionCard from '../components/ActionCard'
 
 export default function HomePage() {
@@ -46,24 +46,6 @@ export default function HomePage() {
                         delay={200}
                         variant="secondary"
                     />
-                </div>
-
-                <div className="stats-bar animate-fade-in-delay-2">
-                    <div className="stat-item">
-                        <Server size={18} className="stat-icon" />
-                        <span className="stat-value">0</span>
-                        <span className="stat-label">Организаций</span>
-                    </div>
-                    <div className="stat-item">
-                        <Activity size={18} className="stat-icon" />
-                        <span className="stat-value">0</span>
-                        <span className="stat-label">Агентов</span>
-                    </div>
-                    <div className="stat-item">
-                        <Clock size={18} className="stat-icon" />
-                        <span className="stat-value">—</span>
-                        <span className="stat-label">Последняя синхронизация</span>
-                    </div>
                 </div>
             </div>
         </div>
