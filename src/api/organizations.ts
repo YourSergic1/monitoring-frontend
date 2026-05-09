@@ -104,3 +104,23 @@ export async function deleteOrganizationById(id: string): Promise<void> {
         throw new Error(errorText || `HTTP ${response.status}`)
     }
 }
+
+/**
+ * Обновляет организацию по UUID (PATCH).
+ * Бэкенд ожидает хотя бы одно заполненное поле в теле запроса.
+ */
+export async function updateOrganization(
+    id: string,
+    data: Partial<OrganizationCreateRequest>
+): Promise<void> {
+    const response = await fetch(getApiUrl(`${API_ENDPOINTS.organizations}/${id}`), {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+    })
+
+    if (!response.ok) {
+        const errorText = await response.text().catch(() => 'Ошибка обновления организации')
+        throw new Error(errorText || `HTTP ${response.status}`)
+    }
+}

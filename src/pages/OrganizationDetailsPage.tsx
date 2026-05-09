@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { ArrowLeft, Building2, Loader2, AlertCircle, MapPin, Phone, User, Fingerprint, Trash2, X } from 'lucide-react'
+import { ArrowLeft, Building2, Loader2, AlertCircle, MapPin, Phone, User, Fingerprint, Trash2, X, Pencil } from 'lucide-react'
 import { fetchOrganizationById, deleteOrganizationById, type OrganizationResponse } from '../api/organizations'
 
 export default function OrganizationDetailsPage() {
@@ -44,7 +44,6 @@ export default function OrganizationDetailsPage() {
         setDeleteError(null)
         try {
             await deleteOrganizationById(id)
-            // После успешного удаления перенаправляем в список (без возможности вернуться назад)
             navigate('/organizations/list', { replace: true })
         } catch (err) {
             setDeleteError(err instanceof Error ? err.message : 'Ошибка при удалении')
@@ -131,18 +130,18 @@ export default function OrganizationDetailsPage() {
                         </div>
                     </div>
 
-                    {/* Кнопка удаления */}
+
                     <div className="details-divider"></div>
-                    <button
-                        className="delete-btn"
-                        onClick={() => setShowDeleteModal(true)}
-                    >
-                        <Trash2 size={16} />
-                        <span>Удалить организацию</span>
-                    </button>
+                    <div className="details-actions">
+                        <button className="action-btn edit" onClick={() => navigate(`/organizations/edit/${org.id}`)}>
+                            <Pencil size={16} /> <span>Изменить</span>
+                        </button>
+                        <button className="action-btn delete" onClick={() => setShowDeleteModal(true)}>
+                            <Trash2 size={16} /> <span>Удалить организацию</span>
+                        </button>
+                    </div>
                 </div>
 
-                {/* Модальное окно подтверждения */}
                 {showDeleteModal && (
                     <div className="modal-overlay" onClick={() => !isDeleting && setShowDeleteModal(false)}>
                         <div className="modal-dialog" onClick={(e) => e.stopPropagation()}>

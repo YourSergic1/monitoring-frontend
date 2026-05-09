@@ -15,7 +15,7 @@ export default function Header() {
                     style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px' }}
                 >
                     <LayoutDashboard className="logo-icon" size={24} />
-                    <span className="logo-text">Сервер мониторинга</span>
+                    <span className="logo-text">Сервис мониторинга</span>
                 </div>
 
                 <div className="header-right flex items-center gap-4">

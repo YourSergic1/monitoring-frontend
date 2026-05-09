@@ -34,8 +34,6 @@ export default function HomePage() {
                         description="Управление организациями и агентами мониторинга"
                         icon={Building2}
                         onClick={() => {
-                            console.log('🖱️ Клик: Организации')
-                            console.log('🔗 Переход на: /organizations')
                             navigate('/organizations')
                         }}
                         delay={100}
