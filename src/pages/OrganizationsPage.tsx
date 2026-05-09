@@ -34,7 +34,7 @@ export default function OrganizationsPage() {
                         title="Список организаций"
                         description="Просмотр данных и подключённых агентов"
                         icon={List}
-                        onClick={() => alert('Список организаций')}
+                        onClick={() => navigate('/organizations/list')}
                         delay={200}
                         variant="secondary"
                     />

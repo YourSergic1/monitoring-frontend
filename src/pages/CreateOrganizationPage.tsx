@@ -29,7 +29,7 @@ export default function CreateOrganizationPage() {
         name: '',
         address: '',
         phoneNumber: '',
-        contactPerson: '', // 👈 Новое поле
+        contactPerson: '',
     })
 
     const [errors, setErrors] = useState<FormErrors>({})
@@ -43,7 +43,7 @@ export default function CreateOrganizationPage() {
             newErrors.name = 'Минимум 3 символа'
         }
 
-        if (!formData.contactPerson.trim()) { // 👈 Валидация контактного лица
+        if (!formData.contactPerson.trim()) {
             newErrors.contactPerson = 'Контактное лицо обязательно'
         }
 
@@ -73,12 +73,53 @@ export default function CreateOrganizationPage() {
     }
 
     const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const formatted = formatPhone(e.target.value)
-        setFormData((prev: OrganizationCreateRequest) => ({ ...prev, phoneNumber: formatted }))
+        const input = e.target
+        const cursorPos = input.selectionStart ?? 0
+        const rawValue = e.target.value
+
+        let digits = rawValue.replace(/\D/g, '')
+
+        if (digits.length === 0) digits = '7'
+        if (digits[0] !== '7') digits = '7' + digits.slice(1)
+        digits = digits.slice(0, 11)
+
+        let formatted = '+7'
+        if (digits.length > 1) formatted += ` (${digits.slice(1, 4)}`
+        if (digits.length >= 4) formatted += ')'
+        if (digits.length > 4) formatted += ` ${digits.slice(4, 7)}`
+        if (digits.length > 7) formatted += `-${digits.slice(7, 9)}`
+        if (digits.length > 9) formatted += `-${digits.slice(9, 11)}`
+
+        let digitsBeforeCursor = 0
+        for (let i = 0; i < cursorPos && i < rawValue.length; i++) {
+            if (/\d/.test(rawValue[i])) digitsBeforeCursor++
+        }
+
+        let newCursorPos = 0
+        let count = 0
+        for (let i = 0; i < formatted.length; i++) {
+            if (/\d/.test(formatted[i])) {
+                count++
+                if (count === digitsBeforeCursor) {
+                    newCursorPos = i + 1
+                    break
+                }
+            }
+        }
+        if (count < digitsBeforeCursor) newCursorPos = formatted.length
+        if (newCursorPos > 2 && [' ', '(', ')', '-'].includes(formatted[newCursorPos - 1])) {
+            newCursorPos--
+        }
+        if (newCursorPos < 2) newCursorPos = 2
+        setFormData(prev => ({ ...prev, phoneNumber: formatted }))
+        requestAnimationFrame(() => {
+            if (document.activeElement === input) {
+                input.setSelectionRange(newCursorPos, newCursorPos)
+            }
+        })
         if (errors.phoneNumber) {
             setErrors(prev => ({ ...prev, phoneNumber: undefined }))
         }
-        if (error) setError(null)
     }
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -196,7 +237,6 @@ export default function CreateOrganizationPage() {
                             value={formData.phoneNumber}
                             onChange={handlePhoneChange}
                             placeholder="+7 (___) ___-__-__"
-                            maxLength={18}
                             disabled={isLoading}
                         />
                         {errors.phoneNumber && <span className="form-error-text">{errors.phoneNumber}</span>}
