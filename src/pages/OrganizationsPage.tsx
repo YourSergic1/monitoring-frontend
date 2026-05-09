@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { Plus, List, ArrowLeft, Building2 } from 'lucide-react'
+import { Plus, List, ArrowLeft } from 'lucide-react'
 import ActionCard from '../components/ActionCard'
 
 export default function OrganizationsPage() {
@@ -10,39 +10,34 @@ export default function OrganizationsPage() {
             <div className="container">
                 <button className="back-btn" onClick={() => navigate('/')}>
                     <ArrowLeft size={16} />
-                    <span>Назад</span>
+                    <span>На главную</span>
                 </button>
 
                 <div className="page-header animate-fade-in">
-                    <h1 className="page-title">Организации</h1>
-                    <p className="page-subtitle">
-                        Создавайте и управляйте организациями для группировки агентов мониторинга
-                    </p>
+                    <div className="header-title-block">
+                        <h1 className="page-title">Организации</h1>
+                        <p className="page-subtitle">
+                            Создание новых организаций и просмотр информации о подключённых агентах
+                        </p>
+                    </div>
                 </div>
 
                 <div className="cards-grid cards-grid-small">
                     <ActionCard
                         title="Создать организацию"
-                        description="Добавить новую организацию в систему"
+                        description="Зарегистрировать новую организацию в системе"
                         icon={Plus}
-                        onClick={() => alert('Форма создания организации')}
+                        onClick={() => navigate('/organizations/new')}
                         delay={100}
                     />
                     <ActionCard
-                        title="Просмотреть организации"
-                        description="Список всех доступных организаций"
+                        title="Список организаций"
+                        description="Просмотр данных и подключённых агентов"
                         icon={List}
                         onClick={() => alert('Список организаций')}
                         delay={200}
                         variant="secondary"
                     />
-                </div>
-
-                <div className="empty-state animate-fade-in-delay-2">
-                    <Building2 size={32} className="empty-icon" />
-                    <p className="text-muted">
-                        Пока нет организаций. Создайте первую, чтобы начать работу.
-                    </p>
                 </div>
             </div>
         </div>

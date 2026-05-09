@@ -3,6 +3,7 @@ import { ThemeProvider } from './context/ThemeContext'
 import Header from './components/Header'
 import HomePage from './pages/HomePage'
 import OrganizationsPage from './pages/OrganizationsPage'
+import CreateOrganizationPage from './pages/CreateOrganizationPage'
 import './App.css'
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
                         <Routes>
                             <Route path="/" element={<HomePage />} />
                             <Route path="/organizations" element={<OrganizationsPage />} />
+                            <Route path="/organizations/new" element={<CreateOrganizationPage />} />
                         </Routes>
                     </main>
                 </div>

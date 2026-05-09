@@ -1,7 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom'
-import { LayoutDashboard, Building2, Gauge, Sun, Moon } from 'lucide-react'
-import { useTheme } from '../context/ThemeContext'
-import ThemeToggle from './ThemeToggle'
+import { LayoutDashboard, Building2, Gauge } from 'lucide-react' // Убрали Sun, Moon
+import ThemeToggle from './ThemeToggle' // useTheme тоже не нужен здесь
 
 export default function Header() {
     const navigate = useNavigate()

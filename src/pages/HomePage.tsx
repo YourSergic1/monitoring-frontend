@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { Building2, Gauge, Server, Activity, Clock, Calendar, Signal } from 'lucide-react'
+import { Building2, Gauge, Server, Activity, Clock, Calendar } from 'lucide-react'
 import ActionCard from '../components/ActionCard'
 
 export default function HomePage() {
@@ -16,16 +16,14 @@ export default function HomePage() {
         <div className="page">
             <div className="container">
                 <div className="page-header animate-fade-in">
-                    <div className="header-status">
-                        <Signal size={16} className="status-dot" />
-                        <span>Система активна</span>
+                    <div className="header-title-block">
+                        <h1 className="page-title">Панель управления</h1>
+                        <p className="page-subtitle">
+                            Оперативная сводка по инфраструктуре и подключенным агентам
+                        </p>
                     </div>
-                    <h1 className="page-title">Панель управления</h1>
-                    <p className="page-subtitle">
-                        Оперативная сводка по инфраструктуре и подключенным агентам
-                    </p>
-                    <div className="dashboard-date">
-                        <Calendar size={14} />
+                    <div className="header-date-block">
+                        <Calendar size={15} />
                         <span>{today}</span>
                     </div>
                 </div>
@@ -35,7 +33,11 @@ export default function HomePage() {
                         title="Организации"
                         description="Управление организациями и агентами мониторинга"
                         icon={Building2}
-                        onClick={() => navigate('/organizations')}
+                        onClick={() => {
+                            console.log('🖱️ Клик: Организации')
+                            console.log('🔗 Переход на: /organizations')
+                            navigate('/organizations')
+                        }}
                         delay={100}
                     />
                     <ActionCard
