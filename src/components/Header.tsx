@@ -34,7 +34,10 @@ export default function Header() {
                             <Building2 size={16} />
                             <span>Организации</span>
                         </button>
-                        <button className="nav-btn disabled" disabled title="Скоро">
+                        <button
+                            className={`nav-btn ${location.pathname === '/metrics' ? 'active' : ''}`}
+                            onClick={() => navigate('/organizations/metrics')}
+                        >
                             <Gauge size={16} />
                             <span>Метрики</span>
                         </button>

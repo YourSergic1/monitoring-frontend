@@ -79,7 +79,6 @@ export default function MetricsPage() {
                 <div className="page-header animate-fade-in">
                     <div className="header-title-block">
                         <h1 className="page-title">Мониторинг организаций</h1>
-                        <p className="page-subtitle">Текущий статус подключенных агентов</p>
                     </div>
                 </div>
 
@@ -112,7 +111,7 @@ export default function MetricsPage() {
                                 key={org.id}
                                 className="metrics-item"
                                 style={{ borderLeftColor: getStateColor(org.state) }}
-                                onClick={() => navigate(`/organizations/details/${org.id}`)}
+                                onClick={() => navigate(`/organizations/${org.id}/agents`)}
                             >
                                 <div className="metrics-icon">
                                     <Building2 size={20} />

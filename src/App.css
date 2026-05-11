@@ -1130,3 +1130,26 @@
   .controls-bar { flex-direction: column; }
   .metrics-item { padding: 12px 14px; }
 }
+
+/* === Agents List === */
+.agents-list { display: flex; flex-direction: column; gap: 10px; max-width: 600px; margin: 0 auto; }
+.agents-item {
+  display: flex; align-items: center; gap: 14px; padding: 14px 18px;
+  background: var(--color-bg-card); border: 1px solid var(--color-border);
+  border-left-width: 4px; border-left-style: solid; border-radius: var(--radius-md);
+  transition: var(--transition); cursor: default;
+}
+.agents-item:hover { transform: translateX(4px); box-shadow: var(--shadow-md); background: var(--color-bg-secondary); }
+.agents-icon { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: var(--radius-sm); flex-shrink: 0; }
+.agents-info { flex: 1; min-width: 0; }
+.agents-ip { display: block; font-weight: 600; color: var(--color-text-primary); font-family: monospace; }
+.agents-status { display: block; font-size: 0.85rem; font-weight: 500; margin-top: 2px; }
+.agents-id { font-size: 0.8rem; color: var(--color-text-muted); font-family: monospace; }
+
+.agents-time {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+  white-space: nowrap;
+}
