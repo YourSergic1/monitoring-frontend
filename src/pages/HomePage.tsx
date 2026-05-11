@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { Building2, Gauge, Calendar } from 'lucide-react'
+import { LayoutDashboard, Building2, Gauge, Calendar, Users } from 'lucide-react'
 import ActionCard from '../components/ActionCard'
 
 
@@ -54,6 +54,14 @@ export default function HomePage() {
                         icon={Calendar}
                         onClick={() => navigate('/calendar')}
                         delay={300}
+                    />
+                    <ActionCard
+                        title="Пользователи"
+                        description="Управление учетными записями, ролями и доступом"
+                        icon={Users}
+                        onClick={() => navigate('/users')}
+                        delay={400}
+                        variant="primary"
                     />
                 </div>
             </div>

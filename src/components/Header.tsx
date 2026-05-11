@@ -1,6 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom'
-// ✅ 1. Добавили Calendar в импорт
-import { LayoutDashboard, Building2, Gauge, Calendar } from 'lucide-react'
+import { LayoutDashboard, Building2, Gauge, Calendar, Users } from 'lucide-react'
 import ThemeToggle from './ThemeToggle'
 
 export default function Header() {
@@ -50,6 +49,13 @@ export default function Header() {
                         >
                             <Calendar size={16} />
                             <span>Календарь</span>
+                        </button>
+                        <button
+                            className={`nav-btn ${location.pathname.startsWith('/users') ? 'active' : ''}`}
+                            onClick={() => navigate('/users')}
+                        >
+                            <Users size={16} />
+                            <span>Пользователи</span>
                         </button>
                     </nav>
 

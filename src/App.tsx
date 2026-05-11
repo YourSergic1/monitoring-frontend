@@ -11,6 +11,7 @@ import OrganizationsMetricsPage from './pages/OrganizationsMetricsPage'
 import AgentsPage from './pages/AgentsPage'
 import AgentMetricsPage from './pages/AgentMetricsPage'
 import DutyCalendarPage from './pages/DutyCalendarPage'
+import UsersPage from './pages/UsersPage'
 import './App.css'
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
                             <Route path="/organizations/:orgId/agents" element={<AgentsPage />} />
                             <Route path="/agents/:agentId/metrics" element={<AgentMetricsPage />} />
                             <Route path="/calendar" element={<DutyCalendarPage />} />
+                            <Route path="/users" element={<UsersPage />} />
                         </Routes>
                     </main>
                 </div>
