@@ -17,9 +17,6 @@ export default function UsersPage() {
                 <div className="page-header animate-fade-in">
                     <div className="header-title-block">
                         <h1 className="page-title">Управление пользователями</h1>
-                        <p className="page-subtitle">
-                            Настройка доступа, ролей и учетных записей сотрудников
-                        </p>
                     </div>
                 </div>
 
@@ -41,17 +38,6 @@ export default function UsersPage() {
                         delay={100}
                         variant="secondary"
                     />
-                </div>
-
-                {/* Дополнительная инфо-карточка (опционально) */}
-                <div className="stats-bar mt-8">
-                    <div className="stat-item">
-                        <Shield className="stat-icon" />
-                        <div>
-                            <span className="stat-value">3</span>
-                            <span className="stat-label">Активные роли</span>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

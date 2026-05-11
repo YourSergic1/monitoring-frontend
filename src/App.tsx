@@ -14,6 +14,8 @@ import DutyCalendarPage from './pages/DutyCalendarPage'
 import UsersListPage from './pages/UsersListPage'
 import CreateUserPage from './pages/CreateUserPage'
 import UsersPage from './pages/UsersPage'
+import UserDetailsPage from './pages/UserDetailsPage'
+import EditUserPage from './pages/EditUserPage'
 import './App.css'
 
 function App() {
@@ -37,6 +39,8 @@ function App() {
                             <Route path="/users" element={<UsersPage />} />
                             <Route path="/users/list" element={<UsersListPage />} />
                             <Route path="/users/create" element={<CreateUserPage />} />
+                            <Route path="/users/:userId" element={<UserDetailsPage />} />
+                            <Route path="/users/:userId/edit" element={<EditUserPage />} />
                         </Routes>
                     </main>
                 </div>
