@@ -57,11 +57,10 @@ export default function HomePage() {
                     />
                     <ActionCard
                         title="Пользователи"
-                        description="Управление учетными записями, ролями и доступом"
+                        description="Управление учетными записями"
                         icon={Users}
                         onClick={() => navigate('/users')}
                         delay={400}
-                        variant="primary"
                     />
                 </div>
             </div>
