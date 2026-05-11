@@ -118,7 +118,12 @@ export default function AgentsPage() {
                 ) : (
                     <div className="agents-list animate-fade-in-delay-2">
                         {filteredAndSorted.map(agent => (
-                            <div key={agent.id} className="agents-item" style={{ borderLeftColor: getStateColor(agent.state) }}>
+                            <div
+                                key={agent.id}
+                                className="agents-item"
+                                style={{ borderLeftColor: getStateColor(agent.state) }}
+                                onClick={() => navigate(`/agents/${agent.id}/metrics`)}
+                            >
                                 <div className="agents-icon" style={{ backgroundColor: getStateColor(agent.state) || 'var(--color-text-muted)', color: 'white' }}>
                                     <Monitor size={18} />
                                 </div>
