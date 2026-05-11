@@ -26,19 +26,19 @@ export default function UsersPage() {
                 {/* Сетка с действиями */}
                 <div className="cards-grid cards-grid-small">
                     <ActionCard
-                        title="Список пользователей"
-                        description="Просмотр, редактирование и удаление учетных записей"
-                        icon={Users}
-                        onClick={() => navigate('/users/list')}
-                        delay={100}
-                        variant="primary"
-                    />
-                    <ActionCard
                         title="Создать пользователя"
                         description="Добавление нового сотрудника и генерация учетных данных"
                         icon={UserPlus}
                         onClick={() => navigate('/users/create')}
                         delay={200}
+                        variant="primary"
+                    />
+                    <ActionCard
+                        title="Список пользователей"
+                        description="Просмотр, редактирование и удаление учетных записей"
+                        icon={Users}
+                        onClick={() => navigate('/users/list')}
+                        delay={100}
                         variant="secondary"
                     />
                 </div>

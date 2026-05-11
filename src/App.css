@@ -2101,3 +2101,10 @@
 .action-card:nth-child(4):hover .action-icon-wrapper {
   background: #a78bfa !important;
 }
+
+.metrics-id {
+  font-family: monospace;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  word-break: break-all; /* Чтобы длинный UUID не ломал верстку на мобильных */
+}

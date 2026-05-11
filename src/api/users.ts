@@ -14,6 +14,14 @@ export interface CreateUserDTO {
     role: string
 }
 
+// ✅ Новый интерфейс для списка
+export interface UserSummaryResponse {
+    id: string
+    name: string
+    surname: string
+    patronymic: string
+}
+
 export async function fetchUserRoles(): Promise<RoleResponse[]> {
     const res = await fetch(getApiUrl('/users/roles'))
     if (!res.ok) throw new Error('Не удалось загрузить список ролей')
@@ -30,4 +38,11 @@ export async function createUser(dto: CreateUserDTO): Promise<void> {
         const errText = await res.text().catch(() => 'Ошибка сервера')
         throw new Error(errText || `HTTP ${res.status}`)
     }
+}
+
+// ✅ Функция получения списка
+export async function fetchUsers(): Promise<UserSummaryResponse[]> {
+    const res = await fetch(getApiUrl('/users'))
+    if (!res.ok) throw new Error('Не удалось загрузить пользователей')
+    return res.json()
 }
