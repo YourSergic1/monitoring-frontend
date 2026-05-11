@@ -42,7 +42,7 @@ export default function HomePage() {
                         title="Метрики"
                         description="Просмотр и анализ системных метрик в реальном времени"
                         icon={Gauge}
-                        onClick={() => alert('Раздел в разработке')}
+                        onClick={() => navigate('/organizations/metrics')}
                         delay={200}
                         variant="secondary"
                     />

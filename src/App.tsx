@@ -7,6 +7,7 @@ import CreateOrganizationPage from './pages/CreateOrganizationPage'
 import OrganizationsListPage from './pages/OrganizationsListPage'
 import OrganizationDetailsPage from './pages/OrganizationDetailsPage'
 import OrganizationEditPage from './pages/OrganizationEditPage'
+import OrganizationsMetricsPage from './pages/OrganizationsMetricsPage'
 import './App.css'
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
                             <Route path="/organizations/list" element={<OrganizationsListPage />} />
                             <Route path="/organizations/details/:id" element={<OrganizationDetailsPage />} />
                             <Route path="/organizations/edit/:id" element={<OrganizationEditPage />} />
+                            <Route path="/organizations/metrics" element={<OrganizationsMetricsPage/>} />
                         </Routes>
                     </main>
                 </div>
