@@ -20,9 +20,6 @@ export default function HomePage() {
                 <div className="page-header animate-fade-in">
                     <div className="header-title-block">
                         <h1 className="page-title">Панель управления</h1>
-                        <p className="page-subtitle">
-                            Оперативная сводка по инфраструктуре и подключенным агентам
-                        </p>
                     </div>
                     <div className="header-date-block">
                         <Calendar size={15} />
@@ -33,7 +30,7 @@ export default function HomePage() {
                 <div className="cards-grid">
                     <ActionCard
                         title="Организации"
-                        description="Управление организациями и агентами мониторинга"
+                        description="Управление организациями"
                         icon={Building2}
                         onClick={() => {
                             navigate('/organizations')
@@ -42,7 +39,7 @@ export default function HomePage() {
                     />
                     <ActionCard
                         title="Метрики"
-                        description="Просмотр и анализ системных метрик в реальном времени"
+                        description="Просмотр и анализ системных метрик"
                         icon={Gauge}
                         onClick={() => navigate('/organizations/metrics')}
                         delay={200}
