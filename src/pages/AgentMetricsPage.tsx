@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import {
     ArrowLeft, Monitor, Loader2, AlertCircle, RefreshCw,
     Cpu, HardDrive, MemoryStick, Network, Server, Clock,
-    Thermometer, Activity, Wifi, Table2, ChevronDown, ChevronUp, Info, Calendar
+    Thermometer, Activity, Wifi, Table2, ChevronDown, ChevronUp, Info, Calendar, Play
 } from 'lucide-react'
 import {
     AreaChart, Area, LineChart, Line, XAxis, YAxis,
@@ -138,7 +138,9 @@ export default function AgentMetricsPage() {
     const [range, setRange] = useState<TimeRange>('30m')
     const [customFrom, setCustomFrom] = useState('')
     const [customTo, setCustomTo] = useState('')
+    const [dateError, setDateError] = useState<string | null>(null)
 
+    // При переключении на Absolute ставим дефолтные даты, но НЕ грузим данные
     useEffect(() => {
         if (timeMode === 'absolute' && !customFrom) {
             const now = new Date()
@@ -146,31 +148,63 @@ export default function AgentMetricsPage() {
             setCustomFrom(toLocalInput(from.toISOString()))
             setCustomTo(toLocalInput(now.toISOString()))
         }
+        // ❗ Важно: здесь НЕТ вызова loadData()
     }, [timeMode])
 
-    const loadData = useCallback(async () => {
+    const validateDates = (from: string, to: string): string | null => {
+        if (!from || !to) return 'Выберите период времени'
+        const f = new Date(toIsoFromInput(from))
+        const t = new Date(toIsoFromInput(to))
+        if (isNaN(f.getTime()) || isNaN(t.getTime())) return 'Некорректная дата'
+        if (f >= t) return 'Начало должно быть раньше конца'
+        const diffHours = (t.getTime() - f.getTime()) / (1000 * 60 * 60)
+        if (diffHours > 48) return 'Период не может превышать 48 часов'
+        return null
+    }
+
+    const loadData = useCallback(async (forceMode?: TimeMode) => {
         if (!agentId) return
         setLoading(true)
         setError(null)
+        setDateError(null)
+
+        const activeMode = forceMode || timeMode
+
         try {
-            const query = timeMode === 'relative'
-                ? { mode: 'relative' as const, range }
-                : { mode: 'absolute' as const, from: toIsoFromInput(customFrom), to: toIsoFromInput(customTo) }
+            let query: any
+            if (activeMode === 'relative') {
+                query = { mode: 'relative' as const, range }
+            } else {
+                const err = validateDates(customFrom, customTo)
+                if (err) throw new Error(err)
+                query = { mode: 'absolute' as const, from: toIsoFromInput(customFrom), to: toIsoFromInput(customTo) }
+            }
 
             const result = await fetchAgentMetrics(agentId, query)
             setData(result)
             setLastFetch(new Date())
         } catch (err) {
-            setError(err instanceof Error ? err.message : 'Ошибка загрузки')
+            const msg = err instanceof Error ? err.message : 'Ошибка загрузки'
+            setError(msg)
+            if (activeMode === 'absolute') setDateError(msg)
         } finally { setLoading(false) }
     }, [agentId, timeMode, range, customFrom, customTo])
 
-    useEffect(() => { loadData() }, [loadData])
+    // Автозагрузка ТОЛЬКО для Relative режима
     useEffect(() => {
-        if (!autoRefresh || timeMode === 'absolute') return
-        const id = setInterval(loadData, 60_000)
-        return () => clearInterval(id)
-    }, [autoRefresh, loadData, timeMode])
+        if (timeMode === 'relative') {
+            loadData()
+        }
+    }, [timeMode, range])
+
+    const handleApplyDates = () => {
+        const err = validateDates(customFrom, customTo)
+        if (err) {
+            setDateError(err)
+            return
+        }
+        loadData('absolute')
+    }
 
     const latest = useMemo(() => data?.[0] || null, [data])
     const latestCpu = useMemo(() => Array.isArray(latest?.cpuMetricsEntities) ? latest.cpuMetricsEntities[0] : null, [latest?.cpuMetricsEntities])
@@ -255,11 +289,9 @@ export default function AgentMetricsPage() {
             <Activity size={40} className="empty-icon" />
             <h3>Нет данных за выбранный период</h3>
             <p>Агент не отправлял метрики в указанное время или ещё не инициирован.</p>
-            {timeMode === 'absolute' && (
-                <button className="btn btn-secondary" onClick={() => { setTimeMode('relative'); setRange('30m'); }}>
-                    Показать последние 30 минут
-                </button>
-            )}
+            <button className="btn btn-secondary" onClick={() => { setTimeMode('relative'); setRange('30m'); }}>
+                Показать последние 30 минут
+            </button>
         </div>
     )
 
@@ -275,9 +307,20 @@ export default function AgentMetricsPage() {
                     </div>
                     </div>
                     <div className="metrics-controls">
+                        {/* 🔁 Переключатель режима времени */}
                         <div className="time-mode-toggle">
                             <button className={`mode-btn ${timeMode==='relative'?'active':''}`} onClick={()=>setTimeMode('relative')}>Относительно</button>
                             <button className={`mode-btn ${timeMode==='absolute'?'active':''}`} onClick={()=>setTimeMode('absolute')}>Период</button>
+                        </div>
+
+                        {/* 🔁 Переключатель вида: Графики / Таблица */}
+                        <div className="view-toggle">
+                            <button className={`toggle-btn ${viewMode==='charts'?'active':''}`} onClick={()=>setViewMode('charts')}>
+                                <Activity size={14}/> Графики
+                            </button>
+                            <button className={`toggle-btn ${viewMode==='table'?'active':''}`} onClick={()=>setViewMode('table')}>
+                                <Table2 size={14}/> Таблица
+                            </button>
                         </div>
 
                         {timeMode === 'relative' ? (
@@ -288,9 +331,12 @@ export default function AgentMetricsPage() {
                             </div>
                         ) : (
                             <div className="absolute-picker">
-                                <div className="picker-field"><Calendar size={14}/><input type="datetime-local" value={customFrom} onChange={e=>setCustomFrom(e.target.value)} /></div>
+                                <div className="picker-field"><Calendar size={14}/><input type="datetime-local" value={customFrom} onChange={e=>{setCustomFrom(e.target.value); setDateError(null)}} /></div>
                                 <span>—</span>
-                                <div className="picker-field"><Calendar size={14}/><input type="datetime-local" value={customTo} onChange={e=>setCustomTo(e.target.value)} /></div>
+                                <div className="picker-field"><Calendar size={14}/><input type="datetime-local" value={customTo} onChange={e=>{setCustomTo(e.target.value); setDateError(null)}} /></div>
+                                <button className="btn-apply" onClick={handleApplyDates} disabled={!customFrom || !customTo}>
+                                    <Play size={14}/> Показать
+                                </button>
                             </div>
                         )}
 
@@ -298,11 +344,15 @@ export default function AgentMetricsPage() {
                             <button className={`refresh-toggle ${autoRefresh?'active':''}`} onClick={()=>setAutoRefresh(!autoRefresh)} title={autoRefresh?'Авто: ВКЛ':'Авто: ВЫКЛ'}>
                                 <RefreshCw size={16} className={autoRefresh?'spin':''}/>
                             </button>
-                            <button className="btn-icon" onClick={loadData} title="Обновить"><RefreshCw size={18}/></button>
+                            <button className="btn-icon" onClick={() => loadData()} title="Обновить"><RefreshCw size={18}/></button>
                             {lastFetch && <span className="last-update">{lastFetch.toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'})}</span>}
                         </div>
                     </div>
                 </div>
+
+                {dateError && timeMode === 'absolute' && (
+                    <div className="date-error"><AlertCircle size={16}/> {dateError}</div>
+                )}
 
                 <div className="info-bar">
                     <div className="info-item"><Clock size={18}/><div><span className="info-label">Аптайм</span><span className="info-value">{formatUptime(latest?.uptimeMinutes)}</span></div></div>
@@ -312,7 +362,7 @@ export default function AgentMetricsPage() {
                 </div>
 
                 {error ? (
-                    <div className="metrics-error"><AlertCircle size={24}/><span>{error}</span><button className="btn btn-primary" onClick={loadData}>Повторить</button></div>
+                    <div className="metrics-error"><AlertCircle size={24}/><span>{error}</span><button className="btn btn-primary" onClick={() => loadData()}>Повторить</button></div>
                 ) : loading && !data ? (
                     <div className="metrics-loading"><Loader2 size={32} className="spinner"/><span>Загрузка метрик...</span></div>
                 ) : data?.length === 0 ? (

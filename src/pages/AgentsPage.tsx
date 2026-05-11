@@ -94,7 +94,6 @@ export default function AgentsPage() {
                 <div className="page-header animate-fade-in">
                     <div className="header-title-block">
                         <h1 className="page-title">Мониторинг агентов</h1>
-                        <p className="page-subtitle">Статус мониторинга подключенных узлов</p>
                     </div>
                 </div>
 
