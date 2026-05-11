@@ -16,9 +16,6 @@ export default function OrganizationsPage() {
                 <div className="page-header animate-fade-in">
                     <div className="header-title-block">
                         <h1 className="page-title">Организации</h1>
-                        <p className="page-subtitle">
-                            Создание новых организаций и просмотр информации о подключённых агентах
-                        </p>
                     </div>
                 </div>
 
