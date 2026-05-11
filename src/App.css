@@ -1688,3 +1688,145 @@
 .recharts-tooltip-wrapper { outline: none; }
 .recharts-default-legend { margin-top: 8px !important; }
 .recharts-legend-item { font-size: 12px !important; }
+
+/* === View Toggle === */
+.view-toggle {
+  display: flex; gap: 4px;
+  background: var(--color-bg-card); padding: 4px;
+  border-radius: var(--radius-sm); border: 1px solid var(--color-border);
+}
+.toggle-btn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 10px; background: transparent; border: none;
+  border-radius: var(--radius-xs); color: var(--color-text-secondary);
+  font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: var(--transition);
+}
+.toggle-btn.active { background: var(--color-accent); color: white; }
+.toggle-btn:hover:not(.active) { background: var(--color-bg-input); }
+
+/* === Charts Section === */
+.charts-section { margin-top: 24px; display: flex; flex-direction: column; gap: 20px; }
+.chart-card {
+  background: var(--color-bg-card); border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg); padding: 16px; box-shadow: var(--shadow-sm); transition: var(--transition);
+}
+.chart-card:hover { box-shadow: var(--shadow-md); border-color: var(--color-accent); }
+.chart-header { display: flex; align-items: center; gap: 8px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--color-border); }
+
+/* === Custom Tooltip === */
+.custom-tooltip {
+  background: var(--color-bg-card); border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm); padding: 8px 12px; box-shadow: var(--shadow-lg);
+  font-size: 0.8rem; pointer-events: none;
+}
+.tooltip-time { font-weight: 600; color: var(--color-text-primary); margin: 0 0 4px; padding-bottom: 4px; border-bottom: 1px solid var(--color-border); }
+.custom-tooltip p { margin: 2px 0; font-family: monospace; }
+
+/* === Collapsible Legend === */
+.legend-wrapper {
+  margin-bottom: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--color-bg-card);
+}
+
+.legend-toggle {
+  width: 100%; display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 16px; background: var(--color-bg-input); border: none;
+  color: var(--color-text-primary); font-weight: 500; cursor: pointer; transition: var(--transition);
+}
+.legend-toggle:hover { background: var(--color-bg-card); }
+.legend-toggle svg { color: var(--color-accent); }
+
+.legend-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+.legend-content.open { max-height: 600px; transition: max-height 0.4s ease-in; }
+
+.legend-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 8px; padding: 12px 16px 16px; }
+.legend-item { display: flex; align-items: flex-start; gap: 10px; padding: 8px 12px; background: var(--color-bg-input); border-radius: var(--radius-sm); transition: var(--transition); }
+.legend-item:hover { background: var(--color-bg-card); transform: translateX(2px); }
+.legend-icon { flex-shrink: 0; margin-top: 2px; }
+.legend-text { display: flex; flex-direction: column; gap: 2px; font-size: 0.85rem; }
+.legend-text strong { font-weight: 600; }
+.legend-text span { color: var(--color-text-muted); }
+
+/* === Table Section === */
+.table-section { margin-top: 24px; margin-bottom: 24px; }
+.table-header { display: flex; align-items: center; gap: 8px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 12px; font-size: 1.1rem; }
+
+.data-table-wrapper {
+  overflow-x: auto;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-card);
+  box-shadow: var(--shadow-sm);
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  min-width: 1300px; /* Гарантирует скролл на маленьких экранах */
+}
+
+.data-table th, .data-table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: top;
+}
+
+/* Sticky Header & First Column */
+.data-table th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--color-bg-input);
+  color: var(--color-text-secondary);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.data-table th:first-child, .data-table td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 3;
+  background: var(--color-bg-card);
+  border-right: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+.data-table th:first-child { background: var(--color-bg-input); }
+
+/* Hover & Text Styling */
+.data-table tbody tr:hover td { background: var(--color-bg-secondary); }
+.data-table tbody tr:hover td:first-child { background: var(--color-bg-secondary); }
+.data-table td { color: var(--color-text-primary); }
+.data-table td small { color: var(--color-text-muted); font-size: 0.8rem; display: block; margin-top: 2px; }
+
+/* Multi-line Cells (Disk/Network) */
+.multi-cell {
+  font-family: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  white-space: pre;
+  color: var(--color-text-primary);
+}
+.cell-line {
+  margin-bottom: 6px;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed rgba(255,255,255,0.05);
+}
+.cell-line:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+
+/* === Recharts overrides === */
+.recharts-tooltip-wrapper { outline: none; }
+.recharts-default-legend { margin-top: 8px !important; }
+.recharts-legend-item { font-size: 12px !important; }
+
+/* === Responsive === */
+@media (max-width: 768px) {
+  .metrics-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .metrics-controls { width: 100%; justify-content: space-between; flex-wrap: wrap; }
+  .legend-grid { grid-template-columns: 1fr; }
+  .data-table { font-size: 0.8rem; }
+  .data-table th, .data-table td { padding: 10px 12px; }
+}}
