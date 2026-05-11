@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom'
 import { Building2, Gauge, Calendar } from 'lucide-react'
 import ActionCard from '../components/ActionCard'
 
+
+
 export default function HomePage() {
     const navigate = useNavigate()
 
@@ -49,10 +51,9 @@ export default function HomePage() {
                     <ActionCard
                         title="Календарь дежурств"
                         description="Просмотр и управление графиками дежурств"
-                        icon={Calendar} // импортируй из lucide-react
+                        icon={Calendar}
                         onClick={() => navigate('/calendar')}
                         delay={300}
-                        variant="secondary"
                     />
                 </div>
             </div>

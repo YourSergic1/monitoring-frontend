@@ -2084,3 +2084,11 @@
   transition: var(--transition);
   white-space: nowrap;
 }
+
+.action-card:nth-child(3) .action-icon-wrapper {
+  background: #f59e0b;
+}
+
+.action-card:nth-child(3):hover .action-icon-wrapper {
+  background: #fbbf24;
+}
