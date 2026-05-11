@@ -2114,3 +2114,19 @@
   color: var(--color-text-muted);
   word-break: break-all; /* Чтобы длинный UUID не ломал верстку на мобильных */
 }
+
+/* === Calendar Past Days === */
+.calendar-day.past {
+  background: rgba(100, 116, 139, 0.15);
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none; /* Запрещаем клик */
+}
+.calendar-day.past .day-number { color: var(--color-text-muted); }
+.calendar-day.past:hover { box-shadow: none; }
+
+/* === Modal Tweaks === */
+.modal-dialog { max-width: 480px; }
+.modal-actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 20px; }
+.btn-danger { background: var(--color-error); color: white; border: none; }
+.btn-danger:hover { opacity: 0.9; }
