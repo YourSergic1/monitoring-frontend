@@ -46,6 +46,14 @@ export default function HomePage() {
                         delay={200}
                         variant="secondary"
                     />
+                    <ActionCard
+                        title="Календарь дежурств"
+                        description="Просмотр и управление графиками дежурств"
+                        icon={Calendar} // импортируй из lucide-react
+                        onClick={() => navigate('/calendar')}
+                        delay={300}
+                        variant="secondary"
+                    />
                 </div>
             </div>
         </div>

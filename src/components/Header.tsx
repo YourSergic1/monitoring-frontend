@@ -1,6 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom'
-import { LayoutDashboard, Building2, Gauge } from 'lucide-react' // Убрали Sun, Moon
-import ThemeToggle from './ThemeToggle' // useTheme тоже не нужен здесь
+// ✅ 1. Добавили Calendar в импорт
+import { LayoutDashboard, Building2, Gauge, Calendar } from 'lucide-react'
+import ThemeToggle from './ThemeToggle'
 
 export default function Header() {
     const navigate = useNavigate()
@@ -19,7 +20,8 @@ export default function Header() {
                 </div>
 
                 <div className="header-right flex items-center gap-4">
-                    <nav className="nav flex items-center gap-2">
+                    {/* ✅ 2. Добавили flex-wrap, чтобы кнопки переносились на новую строку, если не помещаются */}
+                    <nav className="nav flex items-center gap-2 flex-wrap">
                         <button
                             className={`nav-btn ${location.pathname === '/' ? 'active' : ''}`}
                             onClick={() => navigate('/')}
@@ -40,6 +42,14 @@ export default function Header() {
                         >
                             <Gauge size={16} />
                             <span>Метрики</span>
+                        </button>
+                        {/* ✅ 3. Новая кнопка Календарь */}
+                        <button
+                            className={`nav-btn ${location.pathname === '/calendar' ? 'active' : ''}`}
+                            onClick={() => navigate('/calendar')}
+                        >
+                            <Calendar size={16} />
+                            <span>Календарь</span>
                         </button>
                     </nav>
 
