@@ -32,12 +32,18 @@ export default function EditUserPage() {
             .then(([user, rolesData]) => {
                 setInitialUser(user)
                 setRoles(rolesData)
+
+                // ✅ Надёжная установка роли: если бэк отдал ключ enum — используем его
+                const roleValue = user.role && rolesData.some(r => r.role === user.role)
+                    ? user.role
+                    : ''
+
                 setForm({
                     name: user.name,
                     surname: user.surname,
                     patronymic: user.patronymic,
                     phone: user.phone,
-                    role: user.role
+                    role: roleValue
                 })
             })
             .catch(err => setError(err.message))
@@ -56,6 +62,9 @@ export default function EditUserPage() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         setError(null)
+
+        // 🔍 Отладка
+        console.log('📤 Отправка формы (редактирование):', { role: form.role, roleType: typeof form.role })
 
         if (!form.surname.trim() || !form.name.trim()) { setError('Укажите Фамилию и Имя'); return }
         if (form.phone.replace(/\D/g, '').length < 11) { setError('Введите полный номер телефона'); return }
@@ -79,9 +88,18 @@ export default function EditUserPage() {
         }
     }
 
-    if (loading) return <div className="page"><div className="container"><div className="metrics-loading"><Loader2 size={32} className="spinner" /><span>Загрузка данных...</span></div></div></div>
-    if (error && !initialUser) return <div className="page"><div className="container"><div className="list-error"><AlertCircle size={20}/><span>{error}</span><button className="btn btn-secondary" onClick={()=>navigate('/users/list')}>Назад</button></div></div></div>
-    if (success) return <div className="page"><div className="container"><div className="form-success"><CheckCircle2 size={48} className="success-icon"/><h2>Данные обновлены!</h2><p>Информация пользователя успешно сохранена.</p><button className="btn btn-primary" onClick={()=>navigate(`/users/${userId}`)}>Вернуться к карточке</button></div></div></div>
+    // Пока грузятся роли — не рендерим форму, чтобы select не "сломался"
+    if (loading || roles.length === 0) {
+        return <div className="page"><div className="container"><div className="metrics-loading"><Loader2 size={32} className="spinner" /><span>Загрузка данных...</span></div></div></div>
+    }
+
+    if (error && !initialUser) {
+        return <div className="page"><div className="container"><div className="list-error"><AlertCircle size={20}/><span>{error}</span><button className="btn btn-secondary" onClick={()=>navigate('/users/list')}>Назад</button></div></div></div>
+    }
+
+    if (success) {
+        return <div className="page"><div className="container"><div className="form-success"><CheckCircle2 size={48} className="success-icon"/><h2>Данные обновлены!</h2><p>Информация пользователя успешно сохранена.</p><button className="btn btn-primary" onClick={()=>navigate(`/users/${userId}`)}>Вернуться к карточке</button></div></div></div>
+    }
 
     return (
         <div className="page">
@@ -108,12 +126,25 @@ export default function EditUserPage() {
                             <div className="form-group"><label className="form-label">Email</label><input className="form-input" value={initialUser?.email || ''} disabled style={{opacity:0.7, cursor:'not-allowed'}}/></div>
                             <div className="form-group"><label className="form-label">Телефон <span className="required">*</span></label><input className="form-input" name="phone" value={form.phone} onChange={handlePhoneChange} placeholder="+7 (___) ___-__-__" maxLength={18} required/></div>
                         </div>
-                        <div className="form-group"><label className="form-label">Роль доступа <span className="required">*</span></label>
-                            <select className="form-input" name="role" value={form.role} onChange={handleChange} required>
-                                <option value="" disabled>Выберите роль...</option>
-                                {roles.map(r => <option key={r.role} value={r.role}>{r.displayName}</option>)}
+
+                        {/* Роль — с key для принудительного ре-рендера */}
+                        <div className="form-group">
+                            <label className="form-label">Роль доступа <span className="required">*</span></label>
+                            <select
+                                className="form-input"
+                                name="role"
+                                value={form.role}
+                                onChange={handleChange}
+                                required
+                                key={`role-select-edit-${roles.length}-${initialUser?.role}`} // ✅ Ключ зависит от ролей и текущей роли пользователя
+                            >
+                                <option value="" disabled>— Выберите роль —</option>
+                                {roles.map(r => (
+                                    <option key={r.role} value={r.role}>{r.displayName}</option>
+                                ))}
                             </select>
                         </div>
+
                         <div className="form-actions">
                             <button type="button" className="btn btn-secondary" onClick={() => navigate(`/users/${userId}`)} disabled={submitting}>Отмена</button>
                             <button type="submit" className="btn btn-primary" disabled={submitting}>
