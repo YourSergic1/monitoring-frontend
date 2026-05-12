@@ -63,9 +63,6 @@ export default function EditUserPage() {
         e.preventDefault()
         setError(null)
 
-        // 🔍 Отладка
-        console.log('📤 Отправка формы (редактирование):', { role: form.role, roleType: typeof form.role })
-
         if (!form.surname.trim() || !form.name.trim()) { setError('Укажите Фамилию и Имя'); return }
         if (form.phone.replace(/\D/g, '').length < 11) { setError('Введите полный номер телефона'); return }
         if (!form.role) { setError('Выберите роль'); return }
